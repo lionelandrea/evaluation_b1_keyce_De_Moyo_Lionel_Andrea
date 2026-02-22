@@ -1,17 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}AllGames{% endblock %}</title>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {% block javascripts %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+
+<body class="bg-[#070b13] text-white min-h-screen flex flex-col">
+
+<header class="bg-[#070b13]/80 border-b border-white/5 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-6">
+        <!-- Logo -->
+        <a href="{{ path('app_home') }}" class="flex items-center gap-3">
+            <img src="{{ asset('images/logo-allgames.png') }}" alt="AllGames" class="h-8 w-auto">
+            <span class="font-semibold tracking-wide">AllGames</span>
+        </a>
+
+        <!-- Links -->
+        <nav class="hidden md:flex items-center gap-6 text-sm text-white/70">
+            <a class="hover:text-white" href="{{ path('app_home') }}">Home</a>
+            <a class="hover:text-white" href="{{ path('app_game_list') }}">Games</a>
+            <a class="hover:text-white" href="{{ path('app_about') }}">About</a>
+            {% if app.user %}
+                <a class="hover:text-white" href="{{ path('app_wishlist') }}">Wishlist</a>
+            {% endif %}
+        </nav>
+
+        <!-- Search + actions -->
+        <div class="flex items-center gap-3">
+            <form method="get" action="{{ path('app_game_list') }}" class="hidden sm:flex items-center gap-2">
+                <input
+                    name="q"
+                    value="{{ app.request.query.get('q') }}"
+                    placeholder="Search"
+                    class="h-8 w-52 rounded bg-white/5 border border-white/10 px-3 text-sm outline-none focus:border-blue-500"
+                >
+                <button class="h-8 px-3 rounded bg-blue-500 hover:bg-blue-600 text-sm">OK</button>
+            </form>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="h-8 px-3 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-sm flex items-center">
+                    Admin
+                </a>
+            {% endif %}
+
+            {% if app.user %}
+                <a href="{{ path('app_logout') }}" class="h-8 px-3 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-sm flex items-center">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="h-8 px-3 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-sm flex items-center">
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<main class="flex-1">
+    {% block body %}{% endblock %}
+</main>
+
+<footer class="border-t border-white/5 bg-[#070b13]">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between text-xs text-white/50">
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('images/logo-allgames.png') }}" class="h-5 opacity-70" alt="">
+            <span>© {{ "now"|date("Y") }} AllGames</span>
+        </div>
+
+        <div class="flex items-center gap-3 text-white/50">
+            <a class="hover:text-white" href="#">f</a>
+            <a class="hover:text-white" href="#">t</a>
+            <a class="hover:text-white" href="#">in</a>
+        </div>
+    </div>
+</footer>
+
+</body>
 </html>

@@ -10,12 +10,13 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PageController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(GameRepository $games): Response
+    public function index(GameRepository $repo): Response
     {
-        $latest = $games->findBy([], ['releaseDate' => 'DESC'], 3);
+        // 3 derniers jeux (ou change 6, 9...)
+        $games = $repo->findBy([], ['releaseDate' => 'DESC'], 3);
 
         return $this->render('page/index.html.twig', [
-            'games' => $latest,
+            'games' => $games,
         ]);
     }
 

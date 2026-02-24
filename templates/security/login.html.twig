@@ -1,28 +1,59 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Log in!{% endblock %}
+{% block title %}Login - AllGames{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<section class="flex-1">
+  <div class="max-w-6xl mx-auto px-4 py-12">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+    <div class="min-h-[60vh] flex items-center justify-center">
+      <div class="w-full max-w-md rounded-2xl bg-white/5 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+        <div class="p-6">
+          <h1 class="text-lg font-semibold">Please sign in</h1>
+
+          {% if error %}
+            <div class="mt-4 text-sm text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+              {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+          {% endif %}
+
+          <form method="post" class="mt-5 space-y-4">
+            <div>
+              <label for="email" class="block text-xs text-white/60 mb-2">Email</label>
+              <input
+                type="email"
+                name="_username"
+                id="email"
+                value="{{ last_username }}"
+                autocomplete="email"
+                required
+                class="w-full h-10 rounded bg-white/5 border border-white/10 px-3 text-sm outline-none focus:border-blue-500"
+>
+            </div>
+
+            <div>
+              <label for="password" class="block text-xs text-white/60 mb-2">Password</label>
+              <input
+                type="password"
+                name="_password"
+                id="password"
+                autocomplete="current-password"
+                required
+                class="w-full h-10 rounded bg-white/5 border border-white/10 px-3 text-sm outline-none focus:border-blue-500"
+              >
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button type="submit"
+                    class="h-9 px-6 rounded bg-blue-500 hover:bg-blue-600 text-sm font-medium">
+              Login
+            </button>
+          </form>
+
         </div>
-    {% endif %}
+      </div>
+    </div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+  </div>
+</section>
 {% endblock %}

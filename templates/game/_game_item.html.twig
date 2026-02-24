@@ -1,0 +1,38 @@
+<article class="rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:bg-white/10 transition">
+  
+  <a href="{{ path('app_game_show', { id: game.id }) }}" class="block">
+    <div class="h-40 bg-white/10">
+      <img class="w-full h-full object-cover"
+           src="{% if game.imageName %}{{ asset('uploads/games/' ~ game.imageName) }}{% else %}https://dummyimage.com/1205x505{% endif %}"
+           alt="{{ game.name }}">
+    </div>
+
+    <div class="p-4 pb-2">
+      <h3 class="font-semibold text-sm">{{ game.name }}</h3>
+      <p class="mt-2 text-xs text-white/60 line-clamp-2">
+        {{ game.description ?: 'No description available.' }}
+      </p>
+    </div>
+  </a>
+
+  
+  <div class="px-4 pb-4">
+    {% if app.user %}
+      {% if app.user.hasInWishlist(game) %}
+        <form method="post" action="{{ path('app_wishlist_remove', { id: game.id }) }}">
+          <button type="submit" class="text-xs px-3 py-1 rounded bg-white/10 hover:bg-white/20 border border-white/10">
+            Remove from wishlist
+          </button>
+        </form>
+      {% else %}
+        <form method="post" action="{{ path('app_wishlist_add', { id: game.id }) }}">
+          <button type="submit" class="text-xs px-3 py-1 rounded bg-blue-500 hover:bg-blue-600">
+            Add to wishlist
+          </button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p class="text-xs text-white/50">Login pour ajouter à la wishlist.</p>
+    {% endif %}
+  </div>
+</article>

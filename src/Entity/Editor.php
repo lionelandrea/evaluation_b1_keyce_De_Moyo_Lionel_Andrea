@@ -23,6 +23,6 @@ class Editor
 
     public function __toString(): string
 {
-    return (string) $this->name;
+    return (string) $this->getName();
 }
 }

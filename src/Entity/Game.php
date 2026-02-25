@@ -37,6 +37,9 @@ class Game
     #[ORM\ManyToMany(targetEntity: Genre::class, inversedBy: 'games')]
     private Collection $genres;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
@@ -130,4 +133,20 @@ class Game
 
         return $this;
     }
-}
+    public function __toString(): string
+    {
+       return (string) $this->getName();
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+} 

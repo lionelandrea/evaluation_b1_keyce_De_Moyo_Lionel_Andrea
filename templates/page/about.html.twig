@@ -1,11 +1,26 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}About - AllGames{% endblock %}
 
 {% block body %}
-<div class="max-w-6xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold">About</h1>
-    <p class="text-white/60 mt-3">
-        This is the About page.
+
+<section class="flex-1 py-20 text-center">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <img src="/logo-allgames.svg" alt="AllGames" class="h-36 mx-auto">
+
+    <h1 class="mt-10 text-3xl md:text-4xl font-semibold">
+      About AllGames
+    </h1>
+
+    <p class="mt-6 text-white/60 text-base md:text-lg leading-relaxed">
+      We're dedicated to connecting gamers with the titles they love.
+      Our mission is to simplify how you discover, wishlist, and track the best games across all genres and platforms.
+      Whether you're an avid collector or seeking your next favorite pastime,
+      we're here to help you explore new adventures and get the most out of your gaming journey.
     </p>
-</div>
+
+  </div>
+</section>
+
 {% endblock %}

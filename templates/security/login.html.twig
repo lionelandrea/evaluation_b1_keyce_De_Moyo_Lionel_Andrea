@@ -4,17 +4,17 @@
 {% block body %}
 <section class="flex-1">
   <div class="max-w-6xl mx-auto px-4 py-12">
-
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md rounded-2xl bg-white/5 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
         <div class="p-6">
-          <h1 class="text-lg font-semibold">Please sign in</h1>
 
           {% if error %}
-            <div class="mt-4 text-sm text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
+            <div class="mb-4 text-sm text-red-300 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
               {{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
           {% endif %}
+
+          <h1 class="text-lg font-semibold text-center">Please sign in</h1>
 
           <form method="post" class="mt-5 space-y-4">
             <div>
@@ -27,7 +27,7 @@
                 autocomplete="email"
                 required
                 class="w-full h-10 rounded bg-white/5 border border-white/10 px-3 text-sm outline-none focus:border-blue-500"
->
+              >
             </div>
 
             <div>
@@ -45,7 +45,7 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <button type="submit"
-                    class="h-9 px-6 rounded bg-blue-500 hover:bg-blue-600 text-sm font-medium">
+                    class="w-full h-10 rounded bg-blue-500 hover:bg-blue-600 text-sm font-medium">
               Login
             </button>
           </form>
@@ -53,7 +53,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </section>
 {% endblock %}

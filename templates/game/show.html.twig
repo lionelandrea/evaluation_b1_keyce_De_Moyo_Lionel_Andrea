@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détail d’un jeu - {{ game.name }}{% endblock %}
+
+{% block body %}
+<section class="bg-gradient-to-b from-[#0b1220] via-[#0a1020] to-[#070b13]">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+
+    <h1 class="text-2xl font-bold mb-6">Détail d’un jeu</h1>
+
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      {# LEFT: image #}
+      <div class="rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+        <div class="aspect-[16/9] bg-white/10">
+          <img
+            class="w-full h-full object-cover"
+            src="{% if game.imageName %}{{ asset('uploads/games/' ~ game.imageName) }}{% else %}https://dummyimage.com/1205x505{% endif %}"
+            alt="{{ game.name }}"
+          >
+        </div>
+
+        {# wishlist button under image (like screenshot) #}
+        <div class="p-4">
+          {% if app.user %}
+            {% if app.user.hasInWishlist(game) %}
+              <form method="post" action="{{ path('app_wishlist_remove', { id: game.id }) }}">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 text-xs px-3 py-2 rounded bg-white/10 hover:bg-white/20 border border-white/10">
+                  ✓ On Wishlist
+                </button>
+              </form>
+            {% else %}
+              <form method="post" action="{{ path('app_wishlist_add', { id: game.id }) }}">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 text-xs px-3 py-2 rounded bg-blue-500 hover:bg-blue-600">
+                  + Add to Wishlist
+                </button>
+              </form>
+            {% endif %}
+          {% else %}
+            <p class="text-xs text-white/50">Connecte-toi pour ajouter à la wishlist.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      {# RIGHT: content #}
+      <div class="space-y-5">
+        <div>
+          <h2 class="text-xl font-semibold">{{ game.name }}</h2>
+          <p class="mt-2 text-sm text-white/60 leading-relaxed">
+            {{ game.description ?: "No description available." }}
+          </p>
+        </div>
+
+        {# STATS row #}
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="rounded-xl bg-white/5 border border-white/10 p-4">
+            <div class="text-lg font-bold">2.7K</div>
+            <div class="text-xs text-white/50">Reviews</div>
+          </div>
+
+          <div class="rounded-xl bg-white/5 border border-white/10 p-4">
+            <div class="text-sm font-semibold truncate">{{ game.editor ? game.editor.name : 'Unknown' }}</div>
+            <div class="text-xs text-white/50">Editor</div>
+          </div>
+
+          <div class="rounded-xl bg-white/5 border border-white/10 p-4">
+            <div class="text-lg font-bold">
+              {{ game.releaseDate ? game.releaseDate|date('Y') : '—' }}
+            </div>
+            <div class="text-xs text-white/50">Release</div>
+          </div>
+
+          <div class="rounded-xl bg-white/5 border border-white/10 p-4">
+            <div class="text-lg font-bold">2.5K</div>
+            <div class="text-xs text-white/50">Downloads</div>
+          </div>
+        </div>
+
+        {# Categories badges #}
+        <div>
+          <div class="text-sm font-semibold mb-2">Categories</div>
+          <div class="flex flex-wrap gap-2">
+            {% for genre in game.genres %}
+              <span class="text-xs px-3 py-1 rounded-full bg-blue-500/15 text-blue-300 border border-blue-500/20">
+                {{ genre.name }}
+              </span>
+            {% else %}
+              <span class="text-xs text-white/50">Aucune catégorie</span>
+            {% endfor %}
+          </div>
+        </div>
+
+        {# Price (optional) #}
+        {% if game.price %}
+          <div class="text-sm text-white/70">
+            <span class="font-semibold">Prix :</span> {{ game.price }} FCFA
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# REVIEW BOX (UI only for now) #}
+    <div class="mt-10 flex justify-center">
+      <div class="w-full max-w-2xl rounded-2xl bg-white/5 border border-white/10 p-6">
+        <div class="text-sm font-semibold mb-3">Your review</div>
+
+        <label class="block text-xs text-white/60 mb-2">Write your review here…</label>
+        <textarea
+          class="w-full h-28 rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-sm outline-none focus:border-blue-500"
+          placeholder="Write your review here..."
+        ></textarea>
+
+        <div class="mt-4 text-xs text-white/70 font-semibold">Do you recommend this game?</div>
+        <div class="mt-2 flex gap-2">
+          <button type="button" class="px-3 py-2 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-xs">Yes</button>
+          <button type="button" class="px-3 py-2 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-xs">No</button>
+        </div>
+
+        <button type="button" class="mt-4 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-sm">
+          Post review
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

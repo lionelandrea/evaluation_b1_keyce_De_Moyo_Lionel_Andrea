@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}Games - AllGames{% endblock %}
-
 {% block body %}
-  <div class="max-w-6xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold">Games</h1>
-    <p class="text-white/60 mt-2">La route app_game_list fonctionne ✅</p>
+<div class="max-w-6xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold mb-6">Games</h1>
+  <div class="grid md:grid-cols-3 gap-6">
+    {% for game in games %}
+      {% include 'game/_game_item.html.twig' with { game: game } %}
+    {% endfor %}
   </div>
+</div>
 {% endblock %}
